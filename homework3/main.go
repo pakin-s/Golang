@@ -1,14 +1,16 @@
 package main
 
+import (
+	"fmt"
+	"homework3/word_count"
+)
 
 func main() {
 	s := []string{
-		"apple", "banana", "apple" ,"durain", "apple", "banan", "banana"
+		"apple", "banana", "apple" ,"durain", "apple", "banana", "banana",
 	}
 
-	worldCount(strs [string])
-	return map
-	"apple": 3,
-	"banana": 3,
-	"durain": 1
+	wordMap := wordcount.WordCount(s)
+	fmt.Printf("\"apple\": %d,\n\"banana\": %d,\n\"durain\": %d,", wordMap["apple"], wordMap["banana"], wordMap["durain"])
 }
+
