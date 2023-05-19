@@ -1,3 +1,3 @@
-module main.go
+module homework1
 
 go 1.20
