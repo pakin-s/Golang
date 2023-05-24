@@ -16,13 +16,13 @@ func Init() {
 	router.GET("/expense/:id",
 	controller.GetByIdExpenseTrackerHandler())
 
-	router.POST("/expense/Post",
+	router.POST("/expense",
 	controller.PostExpenseTrackerHandler())
 
-	router.PUT("/expense/Put/:id",
+	router.PUT("/expense/:id",
 	controller.PutExpenseTrackerHandler())
 	
-	router.DELETE("/expense/Delete/:id",
+	router.DELETE("/expense/:id",
 	controller.DeleteExpenseTrackerHandler())
 
 	router.Run(":8092")

@@ -21,6 +21,7 @@ func GetByIdExpenseTrackerHandler() gin.HandlerFunc {
 		trackerId, err := strconv.Atoi(trackerIdStr)
 		if err != nil {
 			context.JSON(http.StatusNotAcceptable, "Incorrect ID")
+			return
 		}
 		context.JSON(200, model.MockData1[trackerId-1])
 	}
@@ -32,7 +33,9 @@ func PostExpenseTrackerHandler() gin.HandlerFunc {
 		err := context.ShouldBindJSON(&data)
 		if err != nil {
 			context.JSON(404, "Data not found")
+			return
 		}
+		data.ID = len(model.MockData1) + 1
 		model.MockData1 = append(model.MockData1, data)
 	}
 }
@@ -43,11 +46,13 @@ func PutExpenseTrackerHandler() gin.HandlerFunc {
 		trackerId, err1 := strconv.Atoi(trackerIdStr)
 		if err1 != nil {
 			context.JSON(http.StatusNotAcceptable, "Incorrect ID")
+			return
 		}
 		var data model.ExpenseTracker
 		err2 := context.ShouldBindJSON(&data)
 		if err2 != nil {
 			context.JSON(404, "Data not found")
+			return
 		}
 		model.MockData1[trackerId-1] = data
 	}
@@ -59,6 +64,7 @@ func DeleteExpenseTrackerHandler() gin.HandlerFunc {
 		trackerId, err := strconv.Atoi(trackerIdStr)
 		if err != nil {
 			context.JSON(http.StatusNotAcceptable, "Incorrect ID")
+			return
 		}
 		for i := 0; i <= len(model.MockData1)-1; i++ {
 			if model.MockData1[i].ID == trackerId {
