@@ -10,19 +10,19 @@ import (
 
 func GetAllExpenseTrackerHandler() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		EpTracker := model.MockData1
-		context.JSON(200, EpTracker)
+		expenseTracker := model.MockData1
+		context.JSON(200, expenseTracker)
 	}
 }
 
 func GetByIdExpenseTrackerHandler() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		EpTrackerId := context.Param("id")
-		IntEpTrackerId, err := strconv.Atoi(EpTrackerId)
+		trackerIdStr := context.Param("id")
+		trackerId, err := strconv.Atoi(trackerIdStr)
 		if err != nil {
-			println(err)
+			context.JSON(http.StatusNotAcceptable, "Incorrect ID")
 		}
-		context.JSON(200, model.MockData1[IntEpTrackerId-1])
+		context.JSON(200, model.MockData1[trackerId-1])
 	}
 }
 
@@ -31,7 +31,7 @@ func PostExpenseTrackerHandler() gin.HandlerFunc {
 		var data model.ExpenseTracker
 		err := context.ShouldBindJSON(&data)
 		if err != nil {
-			println(err)
+			context.JSON(404, "Data not found")
 		}
 		model.MockData1 = append(model.MockData1, data)
 	}
@@ -39,34 +39,34 @@ func PostExpenseTrackerHandler() gin.HandlerFunc {
 
 func PutExpenseTrackerHandler() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		paramID := context.Param("id")
-		IntParamId, err1 := strconv.Atoi(paramID)
+		trackerIdStr := context.Param("id")
+		trackerId, err1 := strconv.Atoi(trackerIdStr)
 		if err1 != nil {
-			println(err1)
+			context.JSON(http.StatusNotAcceptable, "Incorrect ID")
 		}
 		var data model.ExpenseTracker
 		err2 := context.ShouldBindJSON(&data)
 		if err2 != nil {
-			println(err2)
+			context.JSON(404, "Data not found")
 		}
-		model.MockData1[IntParamId-1] = data
+		model.MockData1[trackerId-1] = data
 	}
 }
 
 func DeleteExpenseTrackerHandler() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		param := context.Param("id")
-		paramID, err:= strconv.Atoi(param)
+		trackerIdStr := context.Param("id")
+		trackerId, err := strconv.Atoi(trackerIdStr)
 		if err != nil {
-			println(err)
+			context.JSON(http.StatusNotAcceptable, "Incorrect ID")
 		}
-		for i := 0; i <= len(model.MockData1) - 1; i++ {
-			if model.MockData1[i].ID == paramID {     
+		for i := 0; i <= len(model.MockData1)-1; i++ {
+			if model.MockData1[i].ID == trackerId {
 				model.MockData1 = append(model.MockData1[:i], model.MockData1[i+1:]...)
-					   context.JSON(200, "delete success")
-					   
-					   return
-					 }
+				context.JSON(200, "delete success")
+
+				return
+			}
 		}
 		context.JSON(http.StatusNotFound, "Data not found")
 	}
